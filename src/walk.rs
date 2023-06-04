@@ -24,7 +24,7 @@ pub(crate) struct Options {
     pub(crate) parallel: Option<usize>,
     pub(crate) diff: bool,
     pub(crate) list_all: bool,
-    pub(crate) no_gitignore: bool,
+    pub(crate) no_ignore: bool,
     pub(crate) quiet: bool,
     pub(crate) write: bool,
 }
@@ -107,10 +107,13 @@ fn build_walk(root: &str, ops: &Options, writer: Arc<BufferWriter>) -> Option<Wa
     builder
         .hidden(!ops.hidden)
         .threads(num_threads)
-        .add_custom_ignore_filename(".metafmtignore")
-        .git_ignore(!ops.no_gitignore);
+        .ignore(!ops.no_ignore)
+        .git_ignore(!ops.no_ignore);
     if num_threads == 1 {
         builder.sort_by_file_path(|p1, p2| p1.cmp(p2));
+    }
+    if !ops.no_ignore {
+        builder.add_custom_ignore_filename(".metafmtignore");
     }
     if !ops.globs.is_empty() {
         let mut override_builder = OverrideBuilder::new(root);

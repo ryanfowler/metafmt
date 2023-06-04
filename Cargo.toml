@@ -1,0 +1,30 @@
+[package]
+name = "metafmt"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "metafmt"
+path = "src/main.rs"
+
+[profile.release]
+codegen-units = 1
+debug = false
+lto = true
+opt-level = 3
+strip = true
+
+[dependencies]
+atty = { version = "0.2.14" }
+clap = { version = "4.3.1", features = ["derive"] }
+cmarkfmt = { version = "0.1.1" }
+crossbeam = { version = "0.8.2" }
+diffy = { version = "0.3.0" }
+fastrand = { version = "1.9.0" }
+fjson = { version = "0.3.1" }
+ignore = { version = "0.4.20" }
+jemallocator = { version = "0.5.0" }
+num_cpus = { version = "1.15.0" }
+sqlformat = { version = "0.2.1" }
+termcolor = { version = "1.2.0" }
+toml_edit = { version = "0.19.10" }

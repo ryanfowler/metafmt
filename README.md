@@ -3,7 +3,7 @@
 `metafmt` is a highly performant and opinionated formatter for the following
 configuration and text formats:
 
-- json (`.json`, `.jsonc`, `.hjson`, `jwcc`)
+- json (`.json`, `.jsonc`, `.hjson`, `.jwcc`)
 - markdown (`.md`)
 - sql (`.sql`)
 - toml (`.toml`)

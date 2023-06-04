@@ -1,6 +1,7 @@
 use std::process::Command;
 
 fn main() {
+    let out_dir = std::env::var("OUT_DIR").unwrap();
     Command::new("go")
         .args([
             "build",
@@ -9,7 +10,7 @@ fn main() {
             "-ldflags",
             "-s -w",
             "-o",
-            "bin/libyaml.a",
+            &format!("{}/libyaml.a", out_dir),
             "pkg/yaml.go",
         ])
         .status()
@@ -17,6 +18,6 @@ fn main() {
 
     println!("cargo:rerun-if-changed=pkg");
     println!("cargo:rerun-if-changed=go.mod");
-    println!("cargo:rustc-link-search=native=bin");
+    println!("cargo:rustc-link-search=native={}", out_dir);
     println!("cargo:rustc-link-lib=static=yaml");
 }

@@ -2,6 +2,11 @@
 name = "metafmt"
 version = "0.1.0"
 edition = "2021"
+authors = ["Ryan Fowler"]
+description = "A CLI for formatting configuration files"
+repository = "https://github.com/ryanfowler/metafmt"
+license = "MIT"
+exclude = ["/bin"]
 
 [[bin]]
 name = "metafmt"

@@ -31,9 +31,9 @@ struct Cli {
     #[clap(short, long, default_missing_value = "true")]
     list_all: bool,
 
-    /// Do not respect .gitignore files.
+    /// Disable all ignore-related filtering.
     #[clap(long, default_missing_value = "true")]
-    no_gitignore: bool,
+    no_ignore: bool,
 
     /// The approximate number of threads to use.
     #[clap(short, long)]
@@ -56,7 +56,7 @@ fn main() {
         parallel: cli.parallel,
         diff: cli.diff,
         list_all: cli.list_all,
-        no_gitignore: cli.no_gitignore,
+        no_ignore: cli.no_ignore,
         quiet: cli.quiet,
         write: cli.write,
     };

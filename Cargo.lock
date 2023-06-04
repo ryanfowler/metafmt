@@ -164,9 +164,9 @@ checksum = "2da6da31387c7e4ef160ffab6d5e7f00c42626fe39aea70a7b0f1773f7dd6c1b"
 
 [[package]]
 name = "cmarkfmt"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e7813d799bb9ac0f4eab22c622e8e1678508e4e0e0baff829a4c844840a2246"
+checksum = "909d815849102d6d8b1a05856912294f8bfdf2dd00409d4ac7594773686c5881"
 dependencies = [
  "pulldown-cmark",
 ]

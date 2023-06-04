@@ -15,17 +15,17 @@ struct Cli {
     #[clap(default_value = "./")]
     path: String,
 
+    /// Show a diff for each non-formatted file.
+    #[clap(short, long, default_missing_value = "true")]
+    diff: bool,
+
     /// Include or exclude files to format.
     #[clap(short, long)]
     glob: Vec<String>,
 
-    /// The approximate number of threads to use.
-    #[clap(short, long)]
-    parallel: Option<usize>,
-
-    /// Show a diff for each non-formatted file.
-    #[clap(short, long, default_missing_value = "true")]
-    diff: bool,
+    /// Include hidden files and directories.
+    #[clap(short = '.', long, default_missing_value = "true")]
+    hidden: bool,
 
     /// List all files processed, including formatted ones.
     #[clap(short, long, default_missing_value = "true")]
@@ -34,6 +34,10 @@ struct Cli {
     /// Do not respect .gitignore files.
     #[clap(long, default_missing_value = "true")]
     no_gitignore: bool,
+
+    /// The approximate number of threads to use.
+    #[clap(short, long)]
+    parallel: Option<usize>,
 
     /// Do not print info to stderr.
     #[clap(short, long, default_missing_value = "true")]
@@ -47,6 +51,7 @@ struct Cli {
 fn main() {
     let cli = Cli::parse();
     let opts = Options {
+        hidden: cli.hidden,
         globs: cli.glob,
         parallel: cli.parallel,
         diff: cli.diff,

@@ -51,3 +51,6 @@ jobs:
 
       - name: Rust cargo test
         run: cargo test
+
+      - name: Run metafmt
+        run: cargo run -- -d --hidden

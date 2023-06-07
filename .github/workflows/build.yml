@@ -9,7 +9,7 @@ env:
   RUST_VERSION: "1.70.0"
 
 jobs:
-  check-go:
+  check:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -38,17 +38,6 @@ jobs:
           version: "2023.1"
           install-go: false
 
-  check:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: ${{ env.GO_VERSION }}
-          check-latest: true
-
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@master
         with:
@@ -58,9 +47,6 @@ jobs:
       - name: Rust cargo format
         run: cargo fmt --all -- --check
 
-      - name: Rust cargo build
-        run: cargo build
-
       - name: Rust cargo clippy
         run: cargo clippy -- -D warnings
 
@@ -68,7 +54,7 @@ jobs:
         run: cargo test
 
       - name: Run metafmt
-        run: cargo run -- -d --hidden
+        run: cargo run -- --diff --hidden
 
   build:
     runs-on: ${{ matrix.os }}

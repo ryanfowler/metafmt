@@ -5,6 +5,7 @@ use clap::Parser;
 
 use walk::{walk, Options};
 
+#[cfg(not(target_os = "windows"))]
 #[global_allocator]
 static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
 

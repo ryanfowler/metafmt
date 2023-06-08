@@ -49,7 +49,7 @@ jobs:
         run: |
           staging="metafmt-${{ github.ref_name }}-${{ matrix.target }}"
           mkdir "$staging"
-          cp "target/${{ matrix.target }}/release/metafmt" "$staging"
+          cp "target/${{ matrix.target }}/release/metafmt" "$staging/metafmt"
           tar czf "$staging.tar.gz" "$staging"
           echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
 

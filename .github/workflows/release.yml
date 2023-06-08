@@ -41,8 +41,11 @@ jobs:
           toolchain: ${{ env.RUST_VERSION }}
           target: ${{ matrix.target }}
 
+      - name: Install cross
+        run: cargo install cross
+
       - name: Rust cargo build
-        run: cargo build --release --target ${{ matrix.target }}
+        run: cross build --release --target ${{ matrix.target }}
 
       - name: Build archive
         shell: bash

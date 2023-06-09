@@ -16,23 +16,27 @@ jobs:
     strategy:
       matrix:
         build:
-          - linux-x86_64
           - linux-arm64
-          - macos-x86_64
+          - linux-x86_64
           - macos-arm64
+          - macos-x86_64
+          - windows-x86_64
         include:
-          - build: linux-x86_64
-            os: ubuntu-22.04
-            target: x86_64-unknown-linux-gnu
           - build: linux-arm64
             os: ubuntu-22.04
             target: aarch64-unknown-linux-gnu
+          - build: linux-x86_64
+            os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
           - build: macos-x86_64
             os: macos-12
             target: x86_64-apple-darwin
           - build: macos-arm64
             os: macos-12
             target: aarch64-apple-darwin
+          - build: windows-x86_64
+            os: ubuntu-22.04
+            target: windows-x86_64-gnu
     steps:
       - uses: actions/checkout@v3
 
@@ -58,9 +62,15 @@ jobs:
         shell: bash
         run: |
           staging="metafmt-${{ github.ref_name }}-${{ matrix.target }}"
-          cp "target/${{ matrix.target }}/release/metafmt" metafmt
-          tar czf "$staging.tar.gz" metafmt
-          echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+          if [ "${{ matrix.target }}" = "windows-x86_64-gnu" ]; then
+            cp "target/${{ matrix.target }}/release/metafmt.exe" metafmt.exe
+            zip "$staging.zip" metafmt.exe
+            echo "ASSET=$staging.zip" >> $GITHUB_ENV
+          else
+            cp "target/${{ matrix.target }}/release/metafmt" metafmt
+            tar czf "$staging.tar.gz" metafmt
+            echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+          fi
 
       - name: Upload release archive
         env:

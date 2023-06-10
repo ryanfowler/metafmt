@@ -42,7 +42,7 @@ jobs:
             target: aarch64-apple-darwin
           - build: windows-x86_64
             os: ubuntu-22.04
-            target: windows-x86_64-gnu
+            target: x86_64-pc-windows-gnu
     steps:
       - uses: actions/checkout@v3
 

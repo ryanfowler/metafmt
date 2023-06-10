@@ -68,7 +68,7 @@ jobs:
         shell: bash
         run: |
           staging="metafmt-${{ github.ref_name }}-${{ matrix.target }}"
-          if [ "${{ matrix.target }}" = "windows-x86_64-gnu" ]; then
+          if [ "${{ matrix.target }}" = "x86_64-pc-windows-gnu" ]; then
             cp "target/${{ matrix.target }}/release/metafmt.exe" metafmt.exe
             zip "$staging.zip" metafmt.exe
             echo "ASSET=$staging.zip" >> $GITHUB_ENV

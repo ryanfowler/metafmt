@@ -13,15 +13,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
+    env:
+      ASSET: ""
     strategy:
       matrix:
         build:
+          - freebsd-x86_64
           - linux-arm64
           - linux-x86_64
           - macos-arm64
           - macos-x86_64
           - windows-x86_64
         include:
+          - build: freebsd-x86_64
+            os: ubuntu-22.04
+            target: x86_64-unknown-freebsd
           - build: linux-arm64
             os: ubuntu-22.04
             target: aarch64-unknown-linux-gnu

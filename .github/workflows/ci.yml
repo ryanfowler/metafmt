@@ -3,9 +3,11 @@ name: ci
 on:
   pull_request:
     branches: ["main"]
+  push:
+    branches: ["main"]
 
 env:
-  GO_VERSION: "1.20"
+  GO_VERSION: "1.20.5"
   RUST_VERSION: "1.70.0"
 
 jobs:
@@ -18,7 +20,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
-          check-latest: true
 
       - name: Go format
         run: gofmt -s -w . && git diff --exit-code

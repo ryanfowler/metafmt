@@ -5,6 +5,7 @@ on:
     types: [published]
 
 env:
+  CROSS_VERSION: "0.2.5"
   GO_VERSION: "1.20.5"
   RUST_VERSION: "1.70.0"
 
@@ -62,11 +63,11 @@ jobs:
       - name: Install cross
         if: ${{ matrix.os == 'ubuntu-22.04' }}
         run: |
-          cargo install cross
+          ./ci/install-cross.sh
           echo "CARGO=cross" >> $GITHUB_ENV
 
       - name: Rust cargo build
-        run: ${{ env.CARGO }} build --release --target ${{ matrix.target }}
+        run: ${{ env.CARGO }} build --release --locked --target ${{ matrix.target }}
 
       - name: Build archive
         shell: bash

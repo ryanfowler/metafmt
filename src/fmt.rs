@@ -29,7 +29,7 @@ pub(crate) struct Options {
     pub(crate) write: bool,
 }
 
-pub(crate) fn walk(root: String, ops: Options) -> i32 {
+pub(crate) fn format(root: String, ops: Options) -> i32 {
     let js = Json::default();
     let md = Markdown::default();
     let sql = Sql::default();

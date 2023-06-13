@@ -1,9 +1,9 @@
+mod fmt;
 mod types;
-mod walk;
 
 use clap::Parser;
 
-use walk::{walk, Options};
+use fmt::{format, Options};
 
 #[cfg(not(target_os = "windows"))]
 #[global_allocator]
@@ -61,6 +61,6 @@ fn main() {
         quiet: cli.quiet,
         write: cli.write,
     };
-    let code = walk(cli.path, opts);
-    std::process::exit(code);
+    let exit_code = format(cli.path, opts);
+    std::process::exit(exit_code);
 }

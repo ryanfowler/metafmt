@@ -5,23 +5,10 @@ use std::{
     time::Duration,
 };
 
-use flate2::read::GzDecoder;
 use rand::distributions::{Alphanumeric, DistString};
 use serde::Deserialize;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 use ureq::{Agent, AgentBuilder};
-
-#[cfg(not(target_os = "windows"))]
-static ARTIFACT: &str = "metafmt";
-
-#[cfg(target_os = "windows")]
-static ARTIFACT: &str = "metafmt.exe";
-
-#[cfg(not(target_os = "windows"))]
-static EXTENSION: &str = "tar.gz";
-
-#[cfg(target_os = "windows")]
-static EXTENSION: &str = "zip";
 
 static TARGET: &str = env!("TARGET");
 static VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -65,7 +52,7 @@ pub(crate) fn update_inner(writer: &BufferWriter) -> Result<Option<String>, Erro
     unpack_artifact(&temp_dir.0, reader)?;
 
     let exe_path = env::current_exe()?;
-    let src = Path::new(&temp_dir.0).join(ARTIFACT);
+    let src = Path::new(&temp_dir.0).join("metafmt");
     fs::rename(src, exe_path)?;
 
     Ok(Some(latest))
@@ -97,7 +84,7 @@ fn get_latest_info(writer: &BufferWriter, agent: &Agent) -> Result<String, Error
 
 fn download_artifact(writer: &BufferWriter, agent: &Agent, tag: &str) -> Result<impl Read, Error> {
     write_info(writer, &format!("downloading artifact for version: {tag}"));
-    let url = format!("https://github.com/ryanfowler/metafmt/releases/download/{tag}/metafmt-{tag}-{TARGET}.{EXTENSION}");
+    let url = format!("https://github.com/ryanfowler/metafmt/releases/download/{tag}/metafmt-{tag}-{TARGET}.tar.gz");
     let response = agent.get(&url).call()?;
     let status = response.status();
     if status != 200 {
@@ -107,17 +94,9 @@ fn download_artifact(writer: &BufferWriter, agent: &Agent, tag: &str) -> Result<
     }
 }
 
-#[cfg(not(target_os = "windows"))]
 fn unpack_artifact(temp_dir: &PathBuf, r: impl Read) -> Result<(), std::io::Error> {
-    let gz = GzDecoder::new(r);
+    let gz = flate2::read::GzDecoder::new(r);
     let mut archive = tar::Archive::new(gz);
-    archive.unpack(temp_dir)
-}
-
-#[cfg(target_os = "windows")]
-fn unpack_artifact(temp_dir: &PathBuf, r: impl Read) -> Result<(), std::io::Error> {
-    let mut z = zip::ZipArchive::new(r);
-    let mut archive = Archive::new(gz);
     archive.unpack(temp_dir)
 }
 

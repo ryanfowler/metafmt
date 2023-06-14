@@ -4,7 +4,6 @@ mod update;
 
 use clap::Parser;
 
-#[cfg(not(target_os = "windows"))]
 #[global_allocator]
 static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
 

@@ -70,7 +70,6 @@ jobs:
           - linux-x86_64
           - macos-arm64
           - macos-x86_64
-          - windows-x86_64
         include:
           - build: freebsd-x86_64
             os: ubuntu-22.04
@@ -87,9 +86,6 @@ jobs:
           - build: macos-x86_64
             os: macos-12
             target: x86_64-apple-darwin
-          - build: windows-x86_64
-            os: ubuntu-22.04
-            target: x86_64-pc-windows-gnu
     steps:
       - uses: actions/checkout@v3
 

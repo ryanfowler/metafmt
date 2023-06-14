@@ -1,11 +1,9 @@
+mod fmt;
 mod types;
-mod walk;
+mod update;
 
 use clap::Parser;
 
-use walk::{walk, Options};
-
-#[cfg(not(target_os = "windows"))]
 #[global_allocator]
 static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
@@ -44,6 +42,10 @@ struct Cli {
     #[clap(short, long, default_missing_value = "true")]
     quiet: bool,
 
+    /// Update metafmt to the latest version.
+    #[clap(short, long, default_missing_value = "true")]
+    update: bool,
+
     /// Rewrite files in-place.
     #[clap(short, long, default_missing_value = "true")]
     write: bool,
@@ -51,16 +53,24 @@ struct Cli {
 
 fn main() {
     let cli = Cli::parse();
-    let opts = Options {
-        hidden: cli.hidden,
-        globs: cli.glob,
-        parallel: cli.parallel,
-        diff: cli.diff,
-        list_all: cli.list_all,
-        no_ignore: cli.no_ignore,
-        quiet: cli.quiet,
-        write: cli.write,
+
+    let exit_code = if cli.update {
+        update::update()
+    } else {
+        fmt::format(
+            cli.path,
+            fmt::Options {
+                hidden: cli.hidden,
+                globs: cli.glob,
+                parallel: cli.parallel,
+                diff: cli.diff,
+                list_all: cli.list_all,
+                no_ignore: cli.no_ignore,
+                quiet: cli.quiet,
+                write: cli.write,
+            },
+        )
     };
-    let code = walk(cli.path, opts);
-    std::process::exit(code);
+
+    std::process::exit(exit_code);
 }

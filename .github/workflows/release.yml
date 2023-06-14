@@ -25,7 +25,6 @@ jobs:
           - linux-x86_64
           - macos-arm64
           - macos-x86_64
-          - windows-x86_64
         include:
           - build: freebsd-x86_64
             os: ubuntu-22.04
@@ -42,9 +41,6 @@ jobs:
           - build: macos-arm64
             os: macos-12
             target: aarch64-apple-darwin
-          - build: windows-x86_64
-            os: ubuntu-22.04
-            target: x86_64-pc-windows-gnu
     steps:
       - uses: actions/checkout@v3
 
@@ -73,15 +69,9 @@ jobs:
         shell: bash
         run: |
           staging="metafmt-${{ github.ref_name }}-${{ matrix.target }}"
-          if [ "${{ matrix.target }}" = "x86_64-pc-windows-gnu" ]; then
-            cp "target/${{ matrix.target }}/release/metafmt.exe" metafmt.exe
-            zip "$staging.zip" metafmt.exe
-            echo "ASSET=$staging.zip" >> $GITHUB_ENV
-          else
-            cp "target/${{ matrix.target }}/release/metafmt" metafmt
-            tar czf "$staging.tar.gz" metafmt
-            echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
-          fi
+          cp "target/${{ matrix.target }}/release/metafmt" metafmt
+          tar czf "$staging.tar.gz" metafmt
+          echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
 
       - name: Upload release archive
         env:

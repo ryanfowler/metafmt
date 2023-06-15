@@ -1,42 +1,44 @@
 use std::{
     env, fs,
-    io::{Read, Write},
+    io::{self, Read, Write},
     path::{Path, PathBuf},
     time::Duration,
 };
 
+use flate2::read::GzDecoder;
 use rand::distributions::{Alphanumeric, DistString};
 use serde::Deserialize;
+use tar::Archive;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 use ureq::{Agent, AgentBuilder};
+
+type Error = Box<dyn std::error::Error>;
 
 static TARGET: &str = env!("TARGET");
 static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub(crate) fn update() -> i32 {
     let writer = new_writer();
-    match update_inner(&writer) {
-        Ok(version) => {
+    update_in_place(&writer).map_or_else(
+        |err| {
+            write_error(&writer, &err.to_string());
+            1
+        },
+        |new_version| {
             let mut buf = writer.buffer();
             _ = writeln!(&mut buf);
-            if let Some(version) = version {
-                _ = writeln!(&mut buf, "  metafmt updated to version: {version}");
+            if let Some(new_version) = new_version {
+                _ = writeln!(&mut buf, "  metafmt successfully updated ({new_version})");
             } else {
-                _ = writeln!(&mut buf, "  metafmt already on latest version: v{VERSION}");
+                _ = writeln!(&mut buf, "  already using the latest version (v{VERSION})");
             }
             _ = writer.print(&buf);
             0
-        }
-        Err(err) => {
-            write_error(&writer, &err.to_string());
-            1
-        }
-    }
+        },
+    )
 }
 
-type Error = Box<dyn std::error::Error>;
-
-pub(crate) fn update_inner(writer: &BufferWriter) -> Result<Option<String>, Error> {
+fn update_in_place(writer: &BufferWriter) -> Result<Option<String>, Error> {
     let agent = AgentBuilder::new()
         .timeout(Duration::from_secs(300))
         .user_agent(&format!("metafmt/{VERSION}"))
@@ -69,23 +71,30 @@ fn new_writer() -> BufferWriter {
 
 fn get_latest_info(writer: &BufferWriter, agent: &Agent) -> Result<String, Error> {
     #[derive(Deserialize)]
-    struct Response {
+    struct Release {
         tag_name: String,
     }
 
-    write_info(writer, "fetching latest version metadata");
-    let res: Response = agent
+    write_info(writer, "fetching latest release metadata");
+    let res = agent
         .get("https://api.github.com/repos/ryanfowler/metafmt/releases/latest")
-        .call()?
-        .into_json()?;
+        .timeout(Duration::from_secs(30))
+        .call()?;
 
-    Ok(res.tag_name)
+    let status = res.status();
+    if status != 200 {
+        Err(format!("fetching release metadata: received status: {status}").into())
+    } else {
+        let out: Release = res.into_json()?;
+        Ok(out.tag_name)
+    }
 }
 
 fn download_artifact(writer: &BufferWriter, agent: &Agent, tag: &str) -> Result<impl Read, Error> {
     write_info(writer, &format!("downloading artifact for version: {tag}"));
     let url = format!("https://github.com/ryanfowler/metafmt/releases/download/{tag}/metafmt-{tag}-{TARGET}.tar.gz");
     let response = agent.get(&url).call()?;
+
     let status = response.status();
     if status != 200 {
         Err(format!("downloading artifact: received status: {status}").into())
@@ -94,9 +103,9 @@ fn download_artifact(writer: &BufferWriter, agent: &Agent, tag: &str) -> Result<
     }
 }
 
-fn unpack_artifact(temp_dir: &PathBuf, r: impl Read) -> Result<(), std::io::Error> {
-    let gz = flate2::read::GzDecoder::new(r);
-    let mut archive = tar::Archive::new(gz);
+fn unpack_artifact(temp_dir: &PathBuf, r: impl Read) -> Result<(), io::Error> {
+    let gz = GzDecoder::new(r);
+    let mut archive = Archive::new(gz);
     archive.unpack(temp_dir)
 }
 
@@ -118,10 +127,12 @@ fn write_error(writer: &BufferWriter, msg: &str) {
     _ = writer.print(&buf);
 }
 
+/// TempDir represents a new temporary directory created with a random name.
+/// Upon being dropped, the directory is removed.
 struct TempDir(PathBuf);
 
 impl TempDir {
-    fn new() -> Result<Self, std::io::Error> {
+    fn new() -> Result<Self, io::Error> {
         let mut dir = env::temp_dir();
         let sample = Alphanumeric.sample_string(&mut rand::thread_rng(), 16);
         dir.push(format!("metafmt-{sample}"));

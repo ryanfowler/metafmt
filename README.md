@@ -40,6 +40,7 @@ Options:
       --no-ignore            Disable all ignore-related filtering
   -p, --parallel <PARALLEL>  The approximate number of threads to use
   -q, --quiet                Do not print info to stderr
+  -u, --update               Update metafmt to the latest version
   -w, --write                Rewrite files in-place
   -h, --help                 Print help
   -V, --version              Print version

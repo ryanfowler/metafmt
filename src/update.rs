@@ -19,34 +19,23 @@ static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub(crate) fn update() -> i32 {
     let writer = new_writer();
-    update_in_place(&writer).map_or_else(
-        |err| {
-            write_error(&writer, &err.to_string());
-            1
-        },
-        |new_version| {
-            let mut buf = writer.buffer();
-            _ = writeln!(&mut buf);
-            if let Some(new_version) = new_version {
-                _ = writeln!(&mut buf, "  metafmt successfully updated ({new_version})");
-            } else {
-                _ = writeln!(&mut buf, "  already using the latest version (v{VERSION})");
-            }
-            _ = writer.print(&buf);
-            0
-        },
-    )
+    if let Err(err) = update_in_place(&writer) {
+        _ = write_error(&writer, &err.to_string());
+        1
+    } else {
+        0
+    }
 }
 
-fn update_in_place(writer: &BufferWriter) -> Result<Option<String>, Error> {
+fn update_in_place(writer: &BufferWriter) -> Result<(), Error> {
     let agent = AgentBuilder::new()
-        .timeout(Duration::from_secs(300))
         .user_agent(&format!("metafmt/{VERSION}"))
         .build();
 
     let latest = get_latest_info(writer, &agent)?;
     if latest.trim_start_matches('v') == VERSION {
-        return Ok(None);
+        let msg = format!("  already using the latest version (v{VERSION})");
+        return write_raw(writer, &msg);
     }
 
     let temp_dir = TempDir::new()?;
@@ -57,7 +46,8 @@ fn update_in_place(writer: &BufferWriter) -> Result<Option<String>, Error> {
     let src = Path::new(&temp_dir.0).join("metafmt");
     fs::rename(src, exe_path)?;
 
-    Ok(Some(latest))
+    let msg = format!("  metafmt successfully updated ({latest})");
+    write_raw(writer, &msg)
 }
 
 fn new_writer() -> BufferWriter {
@@ -75,7 +65,7 @@ fn get_latest_info(writer: &BufferWriter, agent: &Agent) -> Result<String, Error
         tag_name: String,
     }
 
-    write_info(writer, "fetching latest release metadata");
+    _ = write_info(writer, "fetching latest release metadata");
     let res = agent
         .get("https://api.github.com/repos/ryanfowler/metafmt/releases/latest")
         .timeout(Duration::from_secs(30))
@@ -91,9 +81,9 @@ fn get_latest_info(writer: &BufferWriter, agent: &Agent) -> Result<String, Error
 }
 
 fn download_artifact(writer: &BufferWriter, agent: &Agent, tag: &str) -> Result<impl Read, Error> {
-    write_info(writer, &format!("downloading artifact for version: {tag}"));
+    _ = write_info(writer, &format!("downloading artifact for version: {tag}"));
     let url = format!("https://github.com/ryanfowler/metafmt/releases/download/{tag}/metafmt-{tag}-{TARGET}.tar.gz");
-    let response = agent.get(&url).call()?;
+    let response = agent.get(&url).timeout(Duration::from_secs(300)).call()?;
 
     let status = response.status();
     if status != 200 {
@@ -109,22 +99,28 @@ fn unpack_artifact(temp_dir: &PathBuf, r: impl Read) -> Result<(), io::Error> {
     archive.unpack(temp_dir)
 }
 
-fn write_info(writer: &BufferWriter, msg: &str) {
+fn write_raw(writer: &BufferWriter, msg: &str) -> Result<(), Error> {
     let mut buf = writer.buffer();
-    _ = buf.set_color(ColorSpec::new().set_fg(Some(Color::Green)).set_bold(true));
-    _ = write!(buf, "info:");
-    _ = buf.reset();
-    _ = writeln!(&mut buf, " {msg}");
-    _ = writer.print(&buf);
+    writeln!(&mut buf, "{msg}")?;
+    Ok(writer.print(&buf)?)
 }
 
-fn write_error(writer: &BufferWriter, msg: &str) {
+fn write_info(writer: &BufferWriter, msg: &str) -> Result<(), Error> {
     let mut buf = writer.buffer();
-    _ = buf.set_color(ColorSpec::new().set_fg(Some(Color::Red)).set_bold(true));
-    _ = write!(&mut buf, "error:");
-    _ = buf.reset();
-    _ = writeln!(&mut buf, " {msg}");
-    _ = writer.print(&buf);
+    buf.set_color(ColorSpec::new().set_fg(Some(Color::Green)).set_bold(true))?;
+    write!(buf, "info:")?;
+    buf.reset()?;
+    writeln!(&mut buf, " {msg}")?;
+    Ok(writer.print(&buf)?)
+}
+
+fn write_error(writer: &BufferWriter, msg: &str) -> Result<(), Error> {
+    let mut buf = writer.buffer();
+    buf.set_color(ColorSpec::new().set_fg(Some(Color::Red)).set_bold(true))?;
+    write!(&mut buf, "error:")?;
+    buf.reset()?;
+    writeln!(&mut buf, " {msg}")?;
+    Ok(writer.print(&buf)?)
 }
 
 /// TempDir represents a new temporary directory created with a random name.

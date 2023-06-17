@@ -140,9 +140,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "cgo"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9b46fb6704a5c72795ab9e1dda1b1bcabfbb22e403f22d08d3bcd5934d66ff3c"
+checksum = "d4b8012aab0c85e1e643347a38b712cb9f6e927985a98d01b5f54b8ceb073f39"
 dependencies = [
  "cc",
 ]

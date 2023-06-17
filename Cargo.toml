@@ -40,4 +40,4 @@ toml_edit = { version = "0.19.10" }
 ureq = { version = "2.7.0", features = ["json"] }
 
 [build-dependencies]
-cgo = { version = "0.2.0" }
+cgo = { version = "0.2.1" }

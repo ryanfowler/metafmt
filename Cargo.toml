@@ -21,7 +21,7 @@ strip = true
 
 [dependencies]
 atty = { version = "0.2.14" }
-clap = { version = "4.3.8", features = ["derive"] }
+clap = { version = "4.3.9", features = ["derive"] }
 cmarkfmt = { version = "0.1.2" }
 crossbeam = { version = "0.8.2" }
 diffy = { version = "0.3.0" }

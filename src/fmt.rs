@@ -13,6 +13,7 @@ use std::{
 use crossbeam::channel::Sender;
 use diffy::{create_patch, PatchFormatter};
 use ignore::{overrides::OverrideBuilder, WalkBuilder, WalkState};
+use is_terminal::IsTerminal;
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 
 use crate::types::{json::Json, markdown::Markdown, sql::Sql, toml::Toml, yaml::Yaml, Format};
@@ -38,7 +39,7 @@ pub(crate) fn format(root: String, ops: Options) -> i32 {
 
     let (tx, rx) = crossbeam::channel::unbounded();
 
-    let is_atty = atty::is(atty::Stream::Stderr);
+    let is_atty = std::io::stderr().is_terminal();
     let writer = Arc::new(BufferWriter::stderr(if is_atty {
         ColorChoice::Always
     } else {

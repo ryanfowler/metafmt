@@ -1,12 +1,11 @@
 use std::{
     env, fs,
-    io::{self, Read, Write},
+    io::{self, IsTerminal, Read, Write},
     path::{Path, PathBuf},
     time::Duration,
 };
 
 use flate2::read::GzDecoder;
-use is_terminal::IsTerminal;
 use rand::distributions::{Alphanumeric, DistString};
 use serde::Deserialize;
 use tar::Archive;
@@ -52,7 +51,7 @@ fn update_in_place(writer: &BufferWriter) -> Result<(), Error> {
 }
 
 fn new_writer() -> BufferWriter {
-    BufferWriter::stderr(if std::io::stderr().is_terminal() {
+    BufferWriter::stderr(if io::stderr().is_terminal() {
         ColorChoice::Always
     } else {
         ColorChoice::Never

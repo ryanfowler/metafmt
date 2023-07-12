@@ -563,7 +563,6 @@ dependencies = [
  "fjson",
  "flate2",
  "ignore",
- "is-terminal",
  "jemallocator",
  "num_cpus",
  "rand",

@@ -35,7 +35,7 @@ serde = { version = "1.0.171", features = ["derive"] }
 sqlformat = { version = "0.2.1" }
 tar = { version = "0.4.39" }
 termcolor = { version = "1.2.0" }
-toml_edit = { version = "0.19.12" }
+toml_edit = { version = "0.19.13" }
 ureq = { version = "2.7.1", features = ["json"] }
 
 [build-dependencies]

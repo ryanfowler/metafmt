@@ -33,15 +33,16 @@ Arguments:
   [PATH]  A file or directory to format [default: ./]
 
 Options:
-  -d, --diff                 Show a diff for each non-formatted file
-  -g, --glob <GLOB>          Include or exclude files to format
-  -., --hidden               Include hidden files and directories
-  -l, --list-all             List all files processed, including formatted ones
-      --no-ignore            Disable all ignore-related filtering
-  -p, --parallel <PARALLEL>  The approximate number of threads to use
-  -q, --quiet                Do not print info to stderr
-  -u, --update               Update metafmt to the latest version
-  -w, --write                Rewrite files in-place
-  -h, --help                 Print help
-  -V, --version              Print version
+  -d, --diff                             Show a diff for each non-formatted file
+  -g, --glob <GLOB>                      Include or exclude files to format
+  -., --hidden                           Include hidden files and directories
+  -l, --list-all                         List all files processed, including formatted ones
+      --no-ignore                        Disable all ignore-related filtering
+  -p, --parallel <PARALLEL>              The approximate number of threads to use
+      --stdin-filetype <STDIN_FILETYPE>  The filetype of the data provided via stdin
+  -q, --quiet                            Do not print info to stderr
+  -u, --update                           Update metafmt to the latest version
+  -w, --write                            Rewrite files in-place
+  -h, --help                             Print help
+  -V, --version                          Print version
 ```

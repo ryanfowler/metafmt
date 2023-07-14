@@ -1,4 +1,5 @@
 mod fmt;
+mod stdin;
 mod types;
 mod update;
 
@@ -38,6 +39,10 @@ struct Cli {
     #[clap(short, long)]
     parallel: Option<usize>,
 
+    /// The filetype of the data provided via stdin.
+    #[clap(long)]
+    stdin_filetype: Option<String>,
+
     /// Do not print info to stderr.
     #[clap(short, long, default_missing_value = "true")]
     quiet: bool,
@@ -56,6 +61,8 @@ fn main() {
 
     let exit_code = if cli.update {
         update::update()
+    } else if cli.path == "-" {
+        stdin::format(cli.stdin_filetype)
     } else {
         fmt::format(
             cli.path,

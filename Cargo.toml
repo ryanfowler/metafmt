@@ -20,7 +20,7 @@ opt-level = 3
 strip = true
 
 [dependencies]
-clap = { version = "4.3.17", features = ["derive"] }
+clap = { version = "4.3.19", features = ["derive"] }
 cmarkfmt = { version = "0.1.2" }
 crossbeam = { version = "0.8.2" }
 diffy = { version = "0.3.0" }

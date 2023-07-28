@@ -31,7 +31,7 @@ ignore = { version = "0.4.20" }
 jemallocator = { version = "0.5.4" }
 num_cpus = { version = "1.16.0" }
 rand = { version = "0.8.5" }
-serde = { version = "1.0.176", features = ["derive"] }
+serde = { version = "1.0.177", features = ["derive"] }
 sqlformat = { version = "0.2.1" }
 tar = { version = "0.4.39" }
 termcolor = { version = "1.2.0" }

@@ -8,6 +8,7 @@ use std::{
     path::{Path, PathBuf},
     str::FromStr,
     sync::Arc,
+    thread,
 };
 
 use crossbeam::channel::Sender;
@@ -103,7 +104,14 @@ pub(crate) fn format(root: String, ops: Options) -> i32 {
 
 fn build_walk(root: &str, ops: &Options, writer: Arc<BufferWriter>) -> Option<WalkBuilder> {
     let mut builder = WalkBuilder::new(root);
-    let num_threads = ops.parallel.unwrap_or_else(num_cpus::get).max(1);
+    let num_threads = ops
+        .parallel
+        .unwrap_or_else(|| {
+            thread::available_parallelism()
+                .map(|v| v.get())
+                .unwrap_or(1)
+        })
+        .max(1);
     builder
         .hidden(!ops.hidden)
         .threads(num_threads)

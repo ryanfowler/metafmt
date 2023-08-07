@@ -29,7 +29,6 @@ fjson = { version = "0.3.1" }
 flate2 = { version = "1.0.26" }
 ignore = { version = "0.4.20" }
 jemallocator = { version = "0.5.4" }
-num_cpus = { version = "1.16.0" }
 rand = { version = "0.8.5" }
 serde = { version = "1.0.181", features = ["derive"] }
 sqlformat = { version = "0.2.1" }

@@ -2,7 +2,7 @@ module github.com/ryanfowler/metafmt
 
 go 1.20
 
-require github.com/google/yamlfmt v0.9.0
+require github.com/google/yamlfmt v0.10.0
 
 require (
 	github.com/RageCage64/multilinediff v0.2.0 // indirect

@@ -24,7 +24,7 @@ clap = { version = "4.4.5", features = ["derive"] }
 cmarkfmt = { version = "0.1.2" }
 crossbeam = { version = "0.8.2" }
 diffy = { version = "0.3.0" }
-fastrand = { version = "2.0.0" }
+fastrand = { version = "2.0.1" }
 fjson = { version = "0.3.1" }
 flate2 = { version = "1.0.27" }
 ignore = { version = "0.4.20" }

@@ -31,7 +31,7 @@ ignore = { version = "0.4.21" }
 jemallocator = { version = "0.5.4" }
 rand = { version = "0.8.5" }
 serde = { version = "1.0.193", features = ["derive"] }
-sqlformat = { version = "0.2.2" }
+sqlformat = { version = "0.2.3" }
 tar = { version = "0.4.40" }
 termcolor = { version = "1.4.0" }
 toml_edit = { version = "0.21.0" }

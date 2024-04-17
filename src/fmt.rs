@@ -340,6 +340,7 @@ fn write_to_temp_file(content: &[u8]) -> Result<PathBuf> {
     let mut file = OpenOptions::new()
         .write(true)
         .create(true)
+        .truncate(true)
         .open(&temp_path)?;
     if let Err(err) = file.write(content) {
         _ = remove_file(&temp_path);

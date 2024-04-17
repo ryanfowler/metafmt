@@ -1,4 +1,4 @@
-use toml_edit::Document;
+use toml_edit::DocumentMut;
 
 use super::Format;
 
@@ -8,7 +8,7 @@ pub(crate) struct Toml {}
 impl Format for Toml {
     fn format(&self, input: &str) -> Result<String, String> {
         input
-            .parse::<Document>()
+            .parse::<DocumentMut>()
             .map(|doc| doc.to_string())
             .map_err(|err| err.to_string())
     }

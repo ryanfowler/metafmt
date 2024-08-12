@@ -30,7 +30,7 @@ flate2 = { version = "1.0.31" }
 ignore = { version = "0.4.22" }
 jemallocator = { version = "0.5.4" }
 rand = { version = "0.8.5" }
-serde = { version = "1.0.205", features = ["derive"] }
+serde = { version = "1.0.206", features = ["derive"] }
 sqlformat = { version = "0.2.4" }
 tar = { version = "0.4.41" }
 termcolor = { version = "1.4.1" }

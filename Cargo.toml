@@ -26,7 +26,7 @@ crossbeam = { version = "0.8.4" }
 diffy = { version = "0.4.0" }
 fastrand = { version = "2.1.0" }
 fjson = { version = "0.3.1" }
-flate2 = { version = "1.0.31" }
+flate2 = { version = "1.0.32" }
 ignore = { version = "0.4.22" }
 jemallocator = { version = "0.5.4" }
 rand = { version = "0.8.5" }

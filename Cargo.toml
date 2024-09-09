@@ -27,7 +27,7 @@ diffy = { version = "0.4.0" }
 fastrand = { version = "2.1.1" }
 fjson = { version = "0.3.1" }
 flate2 = { version = "1.0.33" }
-ignore = { version = "0.4.22" }
+ignore = { version = "0.4.23" }
 jemallocator = { version = "0.5.4" }
 rand = { version = "0.8.5" }
 serde = { version = "1.0.209", features = ["derive"] }

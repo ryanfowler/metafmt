@@ -743,9 +743,9 @@ checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
 
 [[package]]
 name = "sqlformat"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4565f2e36a05369efe8bf4f7fe0b531710c66dd1b339b50eb83f02ec1863a9c1"
+checksum = "31f46f630f39af7250396919c495944ece241a5220b33b753f960065ce1c3ca8"
 dependencies = [
  "nom",
  "once_cell",

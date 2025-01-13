@@ -1,6 +1,6 @@
 module github.com/ryanfowler/metafmt
 
-go 1.20
+go 1.23
 
 require github.com/google/yamlfmt v0.15.0
 

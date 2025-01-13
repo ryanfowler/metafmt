@@ -37,7 +37,7 @@ jobs:
       - name: Go lint
         uses: dominikh/staticcheck-action@v1.3.1
         with:
-          version: "2023.1"
+          version: "2024.1.1"
           install-go: false
 
       - name: Set up Rust

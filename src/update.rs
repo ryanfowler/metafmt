@@ -6,7 +6,7 @@ use std::{
 };
 
 use flate2::read::GzDecoder;
-use rand::distributions::{Alphanumeric, DistString};
+use rand::distr::{Alphanumeric, SampleString};
 use serde::Deserialize;
 use tar::Archive;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
@@ -129,7 +129,7 @@ struct TempDir(PathBuf);
 impl TempDir {
     fn new() -> Result<Self, io::Error> {
         let mut dir = env::temp_dir();
-        let sample = Alphanumeric.sample_string(&mut rand::thread_rng(), 16);
+        let sample = Alphanumeric.sample_string(&mut rand::rng(), 16);
         dir.push(format!("metafmt-{sample}"));
         fs::create_dir(&dir)?;
         Ok(Self(dir))

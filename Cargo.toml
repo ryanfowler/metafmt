@@ -23,7 +23,7 @@ strip = true
 clap = { version = "4.5.27", features = ["derive"] }
 cmarkfmt = { version = "0.1.2" }
 crossbeam = { version = "0.8.4" }
-diffy = { version = "0.4.0" }
+diffy = { version = "0.4.2" }
 fastrand = { version = "2.3.0" }
 fjson = { version = "0.3.1" }
 flate2 = { version = "1.0.35" }

@@ -10,7 +10,7 @@ pub(crate) fn format(filetype: Option<String>) -> i32 {
 
     let mut input = String::new();
     if let Err(err) = io::stdin().read_to_string(&mut input) {
-        eprintln!("error: {}", err);
+        eprintln!("error: {err}");
         return 1;
     }
 
@@ -21,7 +21,7 @@ pub(crate) fn format(filetype: Option<String>) -> i32 {
         "toml" => format_file(&input, Toml::default()),
         "yaml" | "yml" => format_file(&input, Yaml::default()),
         format => {
-            eprintln!("error: unknown format '{}'", format);
+            eprintln!("error: unknown format '{format}'");
             1
         }
     }
@@ -31,13 +31,13 @@ fn format_file(input: &str, formatter: impl Format) -> i32 {
     let output = match formatter.format(input) {
         Ok(output) => output,
         Err(err) => {
-            eprintln!("error: {}", err);
+            eprintln!("error: {err}");
             return 1;
         }
     };
 
     if let Err(err) = io::stdout().write_all(output.as_bytes()) {
-        eprintln!("error: {}", err);
+        eprintln!("error: {err}");
         return 1;
     }
 

@@ -2,7 +2,7 @@ module github.com/ryanfowler/metafmt
 
 go 1.24.0
 
-require github.com/google/yamlfmt v0.18.0
+require github.com/google/yamlfmt v0.19.0
 
 require (
 	github.com/bmatcuk/doublestar/v4 v4.7.1 // indirect

@@ -7,7 +7,7 @@ on:
 env:
   CROSS_VERSION: "0.2.5"
   GO_VERSION: "1.25.5"
-  RUST_VERSION: "1.88.0"
+  RUST_VERSION: "1.92.0"
 
 jobs:
   release:

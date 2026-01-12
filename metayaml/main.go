@@ -17,10 +17,17 @@ func format(input *C.char, output **C.char, perr **C.char) {
 	config.LineLength = 100
 	config.LineEnding = yamlfmt.LineBreakStyleLF
 	config.RetainLineBreaks = true
+
+	features, err := basic.ConfigureYAMLFeaturesFromConfig(config)
+	if err != nil {
+		*perr = C.CString(err.Error())
+		return
+	}
+
 	formatter := basic.BasicFormatter{
 		Config:       config,
 		Features:     basic.ConfigureFeaturesFromConfig(config),
-		YAMLFeatures: basic.ConfigureYAMLFeaturesFromConfig(config),
+		YAMLFeatures: features,
 	}
 
 	out, err := formatter.Format([]byte(ginput))

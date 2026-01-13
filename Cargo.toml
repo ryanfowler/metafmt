@@ -28,7 +28,7 @@ fastrand = { version = "2.3.0" }
 fjson = { version = "0.3.1" }
 flate2 = { version = "1.1.8" }
 ignore = { version = "0.4.25" }
-jemallocator = { version = "0.5.4" }
+mimalloc = { version = "0.1.48" }
 rand = { version = "0.9.2" }
 serde = { version = "1.0.228", features = ["derive"] }
 sqlformat = { version = "0.5.0" }

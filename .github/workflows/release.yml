@@ -6,7 +6,6 @@ on:
 
 env:
   CROSS_VERSION: "0.2.5"
-  GO_VERSION: "1.25.5"
   RUST_VERSION: "1.92.0"
 
 jobs:
@@ -43,12 +42,6 @@ jobs:
             target: aarch64-apple-darwin
     steps:
       - uses: actions/checkout@v6
-
-      - name: Set up Go
-        if: ${{ matrix.os != 'ubuntu-22.04' }}
-        uses: actions/setup-go@v6
-        with:
-          go-version: ${{ env.GO_VERSION }}
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@master

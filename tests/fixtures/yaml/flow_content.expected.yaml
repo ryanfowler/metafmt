@@ -1,0 +1,5 @@
+simple_map: {a: 1, b: 2}
+simple_list: [1, 2, 3]
+nested: {key: [1, 2], other: {x: y}}
+empty_map: {}
+empty_list: []

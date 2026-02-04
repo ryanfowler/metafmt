@@ -8,7 +8,6 @@ on:
 
 env:
   CROSS_VERSION: "0.2.5"
-  GO_VERSION: "1.25.5"
   RUST_VERSION: "1.92.0"
 
 jobs:
@@ -16,29 +15,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
-
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version: ${{ env.GO_VERSION }}
-
-      - name: Go format
-        run: gofmt -s -w . && git diff --exit-code
-
-      - name: Go tidy
-        run: go mod tidy && git diff --exit-code
-
-      - name: Go mod download
-        run: go mod download
-
-      - name: Go mod verify
-        run: go mod verify
-
-      - name: Go lint
-        uses: dominikh/staticcheck-action@v1.4.0
-        with:
-          version: "2025.1"
-          install-go: false
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@master
@@ -88,12 +64,6 @@ jobs:
             target: x86_64-apple-darwin
     steps:
       - uses: actions/checkout@v6
-
-      - name: Set up Go
-        if: ${{ matrix.os != 'ubuntu-22.04' }}
-        uses: actions/setup-go@v6
-        with:
-          go-version: ${{ env.GO_VERSION }}
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@master

@@ -1,0 +1,14 @@
+# This is a top-level comment
+# describing the configuration
+
+# Database section
+database:
+  host: localhost # the hostname
+  port: 5432 # database port
+  # Credentials below
+  username: admin
+  password: secret
+
+# Server section
+server:
+  port: 8080

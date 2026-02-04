@@ -1,0 +1,6 @@
+base: &base
+  key1: value1
+  key2: value2
+
+derived:
+  key3: value3

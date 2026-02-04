@@ -1,0 +1,7 @@
+employees:
+    - name: Alice
+      role: Engineer
+      level: Senior
+    - name: Bob
+      role: Designer
+      level: Junior

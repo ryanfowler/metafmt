@@ -1,0 +1,15 @@
+literal: |
+  This is a literal
+  block scalar.
+  It preserves newlines.
+folded: >
+  This is a folded
+  block scalar.
+  Newlines become spaces.
+stripped: |-
+  No trailing newline
+  in this block.
+kept: |+
+  Trailing newlines
+  are kept.
+

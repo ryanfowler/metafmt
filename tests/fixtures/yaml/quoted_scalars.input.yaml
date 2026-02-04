@@ -1,0 +1,7 @@
+single: 'hello world'
+double: "hello world"
+with_colon: "host: port"
+with_hash: "not a # comment"
+special: 'it''s a test'
+empty_single: ''
+empty_double: ""

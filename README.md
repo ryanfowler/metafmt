@@ -13,7 +13,6 @@ configuration and text formats:
 
 Requirements:
 
-- Go >= 1.20
 - Rust >= 1.70
 
 ```sh

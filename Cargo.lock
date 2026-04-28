@@ -308,11 +308,11 @@ dependencies = [
 
 [[package]]
 name = "diffy"
-version = "0.4.2"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b545b8c50194bdd008283985ab0b31dba153cfd5b3066a92770634fbc0d7d291"
+checksum = "05264ab2aab4fb952fc4b0f3f6eff1ddfb4563064053a4ea174d91537584a769"
 dependencies = [
- "nu-ansi-term",
+ "hashbrown 0.17.0",
 ]
 
 [[package]]
@@ -485,6 +485,15 @@ name = "hashbrown"
 version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100"
+dependencies = [
+ "foldhash 0.2.0",
+]
+
+[[package]]
+name = "hashbrown"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4f467dd6dccf739c208452f8014c75c18bb8301b050ad1cfb27153803edb0f51"
 dependencies = [
  "foldhash 0.2.0",
 ]
@@ -808,15 +817,6 @@ checksum = "8e3e04debbb59698c15bacbb6d93584a8c0ca9cc3213cb423d31f760d8843ce5"
 dependencies = [
  "adler2",
  "simd-adler32",
-]
-
-[[package]]
-name = "nu-ansi-term"
-version = "0.50.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4a28e057d01f97e61255210fcff094d74ed0466038633e95017f5beb68e4399"
-dependencies = [
- "windows-sys 0.52.0",
 ]
 
 [[package]]

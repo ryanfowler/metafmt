@@ -103,10 +103,8 @@ fn find_inline_comment(s: &str) -> Option<usize> {
             b'\\' if in_double_quote => {
                 i += 1; // skip escaped char
             }
-            b'#' if !in_single_quote && !in_double_quote => {
-                if i > 0 && bytes[i - 1] == b' ' {
-                    return Some(i);
-                }
+            b'#' if !in_single_quote && !in_double_quote && i > 0 && bytes[i - 1] == b' ' => {
+                return Some(i)
             }
             _ => {}
         }
@@ -460,12 +458,11 @@ fn find_mapping_colon(s: &str) -> Option<usize> {
             b':' if !in_single_quote
                 && !in_double_quote
                 && brace_depth == 0
-                && bracket_depth == 0 =>
-            {
+                && bracket_depth == 0
                 // Colon must be followed by space, tab, or be at end.
-                if i + 1 >= bytes.len() || bytes[i + 1] == b' ' || bytes[i + 1] == b'\t' {
-                    return Some(i);
-                }
+                && (i + 1 >= bytes.len() || bytes[i + 1] == b' ' || bytes[i + 1] == b'\t') =>
+            {
+                return Some(i);
             }
             _ => {}
         }
